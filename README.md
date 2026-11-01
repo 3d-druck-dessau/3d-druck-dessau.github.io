@@ -15,18 +15,21 @@ Then open <http://localhost:4000>.
 ## Layout
 
 ```
-index.html            the landing page
-imprint.html          Impressum & Datenschutz
-_layouts/druck.html   the one layout: head, header, footer, JSON-LD
-assets/druck/         stylesheet, self-hosted fonts, form.js
+index.html                the landing page
+imprint.html              Impressum
+datenschutz.html          Datenschutzerklärung (Händlerbund, plus site-specific notes)
+agb.html                  AGB und Kundeninformationen (Händlerbund)
+zahlung-und-versand.html  Zahlung und Versand (Händlerbund)
+_layouts/druck.html       the one layout: head, header, footer, JSON-LD
+assets/druck/             stylesheet, self-hosted fonts, form.js
 ```
 
 ## Email address and WhatsApp
 
 Neither appears in the built HTML. `assets/druck/form.js` joins them from split
-strings at runtime and fills `[data-email]` and `[data-whatsapp]` elements. The
-inquiry form opens the visitor's mail app with a pre-filled message; there is
-no form service.
+strings at runtime and fills `[data-email]`, `[data-phone]` and `[data-whatsapp]`
+elements. The inquiry form opens the visitor's mail app with a pre-filled
+message; there is no form service.
 
 ## Deploying
 

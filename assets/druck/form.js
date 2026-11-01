@@ -9,12 +9,16 @@ var WHATSAPP = ["49", "171", "775", "7552"].join(""); // same idea for the numbe
 
 // Contact links are only assembled here, so neither the address nor the number
 // appears in the HTML. [data-email] gets the address as link and text,
-// [data-whatsapp] a chat link. Elements that make no sense without these links
+// [data-phone] the number, [data-whatsapp] a chat link. Elements that make no sense without these links
 // carry `hidden` in the HTML and are revealed here.
 (function () {
   document.querySelectorAll("[data-email]").forEach(function (link) {
     link.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Anfrage 3D-Druck");
     link.textContent = EMAIL;
+  });
+  document.querySelectorAll("[data-phone]").forEach(function (link) {
+    link.href = "tel:+" + WHATSAPP;
+    link.textContent = "+49 171 775 7552";
   });
   var whatsappLinks = document.querySelectorAll("[data-whatsapp]");
   var form = document.getElementById("quote-form");
