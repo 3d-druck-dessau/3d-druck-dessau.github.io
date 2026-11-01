@@ -1,0 +1,23 @@
+title: 3D-Druck Dessau
+description: >-
+  3D-Druck für Unternehmen aus Dessau-Roßlau: Prototypen, Kleinserien,
+  Vorrichtungen und Nachbau per 3D-Scan.
+url: "https://3d-druck-dessau.de"
+lang: de
+
+author:
+  name: Piet Brauer-Kallenberg
+
+github_username: 3d-druck-dessau
+
+plugins:
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - script
+  - vendor
+  - .github
+  - .jekyll-cache
