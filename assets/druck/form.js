@@ -4,7 +4,7 @@
 // with a pre-filled message. Because a page can't tell whether a mail app
 // actually opened, a box with the finished message and copy buttons is shown
 // as well, so people using webmail can paste it in themselves.
-var EMAIL = ["piet", "nerdishbynature.com"].join("@"); // split so scrapers miss it
+var EMAIL = ["piet", "3d-druck-dessau.de"].join("@"); // split so scrapers miss it
 var WHATSAPP = ["49", "171", "775", "7552"].join(""); // same idea for the number
 
 // Contact links are only assembled here, so neither the address nor the number
