@@ -18,7 +18,7 @@ var WHATSAPP = ["49", "171", "775", "7552"].join(""); // same idea for the numbe
   });
   document.querySelectorAll("[data-phone]").forEach(function (link) {
     link.href = "tel:+" + WHATSAPP;
-    link.textContent = "+49 171 775 7552";
+    link.textContent = "+" + WHATSAPP;
   });
   var whatsappLinks = document.querySelectorAll("[data-whatsapp]");
   var form = document.getElementById("quote-form");
