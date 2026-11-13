@@ -1,0 +1,27 @@
+{%- comment -%}
+  Closing call to action on the service pages. include.anliegen is a key that
+  form.js maps to an option of the "Anliegen" select on the home page form.
+{%- endcomment -%}
+    <section class="cta-section">
+      <div class="wrap">
+        <div class="offer">
+          <div class="offer-main">
+            <span class="label">Anfrage</span>
+            <h2>Festpreis anfordern.</h2>
+            <p class="lead">Beschreiben Sie Bauteil, Stückzahl und Termin. Ihr Angebot mit Festpreis kommt spätestens nach 2 Werktagen, garantiert. Wenn Angaben fehlen, frage ich nach.</p>
+            <div class="btns">
+              <a class="btn primary" href="/{% if include.anliegen %}?anliegen={{ include.anliegen }}{% endif %}#anfrage" data-quote-link>Festpreis anfordern <span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div class="offer-side">
+            <ul class="included">
+              <li>Anfrage kostenlos und unverbindlich</li>
+              <li>Angebot spätestens nach 2 Werktagen, garantiert</li>
+              <li>Geheimhaltungsvereinbarung (NDA) auf Wunsch</li>
+              <li>Abholung in Dessau-Roßlau oder Versand deutschlandweit</li>
+            </ul>
+            <p class="fine">Alle Angebote richten sich ausschließlich an Unternehmer im Sinne von § 14 BGB, nicht an Verbraucher.</p>
+          </div>
+        </div>
+      </div>
+    </section>

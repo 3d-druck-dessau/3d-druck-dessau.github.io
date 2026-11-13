@@ -7,6 +7,23 @@
 var EMAIL = ["piet", "3d-druck-dessau.de"].join("@"); // split so scrapers miss it
 var WHATSAPP = ["49", "171", "775", "7552"].join(""); // same idea for the number
 
+// Google Ads click reference. When someone arrives via an ad, Google appends a
+// click ID to the URL (gclid, or gbraid/wbraid on iOS). It is read from the
+// address bar only, never stored in cookies or browser storage, and goes into
+// the request text so a lead can later be reported to Google Ads as an offline
+// conversion. Leaving the page drops it.
+var AD_REF = (function () {
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var keys = ["gclid", "gbraid", "wbraid"];
+    for (var i = 0; i < keys.length; i++) {
+      var value = params.get(keys[i]);
+      if (value && /^[\w-]{1,200}$/.test(value)) return keys[i] + "=" + value;
+    }
+  } catch (e) {}
+  return "";
+})();
+
 // Contact links are only assembled here, so neither the address nor the number
 // appears in the HTML. [data-email] gets the address as link and text,
 // [data-phone] the number, [data-whatsapp] a chat link. Elements that make no sense without these links
@@ -23,13 +40,39 @@ var WHATSAPP = ["49", "171", "775", "7552"].join(""); // same idea for the numbe
   var whatsappLinks = document.querySelectorAll("[data-whatsapp]");
   var form = document.getElementById("quote-form");
 
+  // The service pages link to the form as /?anliegen=<key>#anfrage. The key
+  // preselects the request type; unknown keys leave the form as it is.
+  if (form) {
+    var ANLIEGEN = {
+      prototyp: "Prototyp-Express (Musterteil)",
+      kleinserie: "Kleinserie",
+      vorrichtung: "Vorrichtung / Betriebsmittel",
+      nachbau: "3D-Scan & Nachbau"
+    };
+    try {
+      var key = new URLSearchParams(window.location.search).get("anliegen");
+      if (key && ANLIEGEN.hasOwnProperty(key)) form.elements.anliegen.value = ANLIEGEN[key];
+    } catch (e) {}
+  }
+
+  // Someone who lands on a service page from an ad moves on to the form on
+  // the home page. Carry the click reference along so it still ends up in
+  // the request text there.
+  if (AD_REF) {
+    document.querySelectorAll("a[data-quote-link]").forEach(function (link) {
+      var parts = link.getAttribute("href").split("#");
+      var sep = parts[0].indexOf("?") === -1 ? "?" : "&";
+      link.setAttribute("href", parts[0] + sep + AD_REF + (parts[1] !== undefined ? "#" + parts[1] : ""));
+    });
+  }
+
   // Once someone has started the quote form, the chat starts with what they
   // entered, so switching to WhatsApp halfway doesn't mean typing it again.
   // Selects only count when changed from their first option, which is the
   // default rather than an answer.
   function whatsappText() {
     var greeting = "Hallo, ich habe eine Anfrage zum 3D-Druck:";
-    if (!form) return greeting + " ";
+    if (!form) return greeting + " " + (AD_REF ? "\n\nReferenz: " + AD_REF : "");
     var labels = {
       anliegen: "Anliegen", name: "Name", firma: "Firma", email: "E-Mail",
       telefon: "Telefon", stueckzahl: "Stückzahl", material: "Material / Farbe",
@@ -51,8 +94,8 @@ var WHATSAPP = ["49", "171", "775", "7552"].join(""); // same idea for the numbe
     });
     var projekt = form.elements.projekt.value.trim();
     if (projekt) typed = true;
-    if (!typed) return greeting + " ";
-    return [greeting, ""].concat(lines, projekt ? ["", projekt] : []).join("\n");
+    if (!typed) return greeting + " " + (AD_REF ? "\n\nReferenz: " + AD_REF : "");
+    return [greeting, ""].concat(lines, projekt ? ["", projekt] : [], AD_REF ? ["", "Referenz: " + AD_REF] : []).join("\n");
   }
 
   function updateWhatsapp() {
@@ -99,7 +142,7 @@ var WHATSAPP = ["49", "171", "775", "7552"].join(""); // same idea for the numbe
       "Budgetrahmen: " + (data.get("budget") || "–"),
       "",
       data.get("projekt")
-    ].join("\n");
+    ].concat(AD_REF ? ["", "Referenz: " + AD_REF] : []).join("\n");
     return { subject: subject, body: body };
   }
 

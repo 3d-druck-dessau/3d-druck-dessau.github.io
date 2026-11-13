@@ -244,6 +244,28 @@ section { padding: 104px 0; }
 }
 .hero-meta li::before { content: "✓ "; color: var(--blue); }
 .b2b-note { margin: 16px 0 0; font-size: 14px; }
+.region { margin: 18px 0 0; font-size: 14.5px; color: var(--ink); }
+
+/* Service pages */
+.hero.sub h1 { font-size: clamp(36px, 5vw, 60px); line-height: 1.05; }
+.hero.page-head { padding-bottom: 56px; }
+.hero.page-head .wrap { grid-template-columns: 1fr; }
+.faq-page { padding-top: 0; }
+.cta-section { padding-top: 0; }
+.cases.single { grid-template-columns: minmax(0, 720px); }
+.service .body > :first-child { margin-top: 0; }
+.service .body p { margin: 14px 0 0; }
+.service .included li { font-size: 15px; }
+.more {
+  display: inline-block;
+  margin-top: 10px;
+  font: 600 13px/1.4 var(--mono);
+  color: var(--blue-deep);
+  text-decoration: none;
+}
+.more:hover { color: var(--blue); }
+.service p .more { display: block; }
+.section-head p a { color: var(--blue-deep); }
 
 /* Prototyp-Express offer */
 .express { padding-top: 0; }
@@ -552,6 +574,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 footer a { text-decoration: none; }
 footer a:hover { color: var(--blue); }
+footer .foot-services { order: -1; flex-basis: 100%; padding-bottom: 16px; border-bottom: 1px dashed var(--rule); }
 
 /* Legal pages */
 .contact-link {
@@ -586,7 +609,7 @@ footer a:hover { color: var(--blue); }
   .offer { grid-template-columns: 1fr; }
   .offer-side { border-left: 0; border-top: 1px solid var(--ink); }
   .cases { grid-template-columns: 1fr; }
-  .service p { grid-column: 2; }
+  .service p, .service .body { grid-column: 2; }
 }
 @media (max-width: 640px) {
   .wrap { padding: 0 16px; }
