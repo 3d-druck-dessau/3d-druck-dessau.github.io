@@ -55,12 +55,18 @@ var AD_REF = (function () {
     } catch (e) {}
   }
 
-  // Someone who lands on a service page from an ad moves on to the form on
-  // the home page. Carry the click reference along so it still ends up in
-  // the request text there.
+  // Someone who lands on a service page from an ad usually moves on to the
+  // form on the home page, via the quote buttons, the header or the service
+  // links. Every internal link carries the click reference along (in the URL
+  // only), so it still ends up in the request text there. Legal pages are
+  // left out; they have no form.
   if (AD_REF) {
-    document.querySelectorAll("a[data-quote-link]").forEach(function (link) {
-      var parts = link.getAttribute("href").split("#");
+    var LEGAL = /^\/(imprint|datenschutz|agb|zahlung-und-versand)\//;
+    document.querySelectorAll('a[href^="/"]').forEach(function (link) {
+      var href = link.getAttribute("href");
+      if (href.indexOf("//") === 0 || LEGAL.test(href)) return;
+      var parts = href.split("#");
+      if (/[?&](gclid|gbraid|wbraid)=/.test(parts[0])) return;
       var sep = parts[0].indexOf("?") === -1 ? "?" : "&";
       link.setAttribute("href", parts[0] + sep + AD_REF + (parts[1] !== undefined ? "#" + parts[1] : ""));
     });
